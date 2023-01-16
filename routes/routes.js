@@ -6,6 +6,6 @@ const router = express.Router()
 
 // ****NOTE...CHANGE THE METHOD TO POST
 router.post('/signup',signup)
-router.get('/login',login)
+router.post('/login',login)
 
 module.exports = {router}
