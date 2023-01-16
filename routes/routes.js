@@ -1,8 +1,11 @@
 const express = require('express')
-const {signup, testing} = require('../controllers/userCredentials.js')
+const {signup, login} = require('../controllers/userCredentials.js')
 const router = express.Router()
 
-router.get('/',testing)
-router.get('/signup',signup)
+// router.get('/',testing)
+
+// ****NOTE...CHANGE THE METHOD TO POST
+router.post('/signup',signup)
+router.get('/login',login)
 
 module.exports = {router}
