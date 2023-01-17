@@ -2,7 +2,7 @@ const Joi = require('joi')
 const sequelize = require('../config/connection.js')
 const { signupSchema, loginSchema } = require('../validation/dataValidation.js')
 
-// const user = require('../models/Users.js')
+const user = require('../models/Users.js')
 
 
 const signup = async(req,res) => {
@@ -12,8 +12,8 @@ const signup = async(req,res) => {
         res.status(200).json([{message: signupValidation.error.details[0].message}])
         
     } else {
-        res.status(200).json([{message:"Registration successful"}])
-        console.log("Credentials successful")
+        // res.status(200).json(["Registration successful"])
+        // console.log("Credentials successful")
     }
     
 }

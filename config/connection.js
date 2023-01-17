@@ -12,8 +12,10 @@ console.log(process.env.DATABASE)
 
 module.exports = sequelize;
 
+
+
 // sequelize.authenticate().then(result => {
-//     console.log("Connection successful",result)
+//     console.log("Connection successful")
 // }).catch(err => {
 //     console.log("No connection")
 // })
