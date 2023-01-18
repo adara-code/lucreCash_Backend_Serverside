@@ -8,32 +8,46 @@ const User = require('../models/Users.js')
 const salt = bcrypt.genSaltSync(10)
 
 const signup = async (req, res) => {
-    // const signupValidation = await signupSchema.validate(req.body)
-    const user = {
-        fullnames: "Shee Kay",
-        username: "Shee",
-        email: "shee@example.com",
-        password: "123456"
-    }
-   sequelize.sync({force:true}).then(res => {
-    User.create(user)
-    console.log(res)
-   })
+    const signupValidation = await signupSchema.validate(req.body)
 
-}
+    if (signupValidation.error) {
+        console.log(signupValidation.error.details[0].message)
+        res.status(200).json([{ message: signupValidation.error.details[0].message }])
 
-const login = async (req, res) => {
-    const loginValidation = await loginSchema.validate(req.body)
-    if (loginValidation.error) {
-        res.status(200).json([{ message: loginValidation.error.details[0].message }])
     } else {
-        console.log("Login validation successful")
+        const user = {
+            fullnames: signupValidation.value.fullnames,
+            inputUsername: signupValidation.value.username,
+            inputEmail: signupValidation.value.email,
+            inputPassword: bcrypt.hashSync(signupValidation.value.password, salt)
+        }
+        sequelize.sync({force:true}).then(result => {
+            User.create({
+                fullnames : signupValidation.value.fullnames,
+                username : signupValidation.value.username,
+                email : signupValidation.value.email ,
+                password : bcrypt.hashSync(signupValidation.value.password, salt)
+            })
+            console.log(result)
+            res.status(200).json([{message:"data created successfully"}])
+        }).catch(err => {
+            console.log(err)
+        })
     }
 }
 
-module.exports = { signup, login }
+    const login = async (req, res) => {
+        const loginValidation = await loginSchema.validate(req.body)
+        if (loginValidation.error) {
+            res.status(200).json([{ message: loginValidation.error.details[0].message }])
+        } else {
+            console.log("Login validation successful")
+        }
+    }
+
+    module.exports = { signup, login }
 
 
 
 /*creates the user table in the database | Add it to the signup function
-sequelize.sync({ force: true }).then(result => console.log(result)) */
+sequelize.sync({ force: true }).then(result => {User.create(user object) console.log(result)}) */
