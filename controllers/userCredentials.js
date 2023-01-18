@@ -15,21 +15,23 @@ const signup = async (req, res) => {
         res.status(200).json([{ message: signupValidation.error.details[0].message }])
 
     } else {
-        const user = {
-            fullnames: signupValidation.value.fullnames,
-            inputUsername: signupValidation.value.username,
-            inputEmail: signupValidation.value.email,
-            inputPassword: bcrypt.hashSync(signupValidation.value.password, salt)
-        }
-        sequelize.sync({force:true}).then(result => {
-            User.create({
-                fullnames : signupValidation.value.fullnames,
-                username : signupValidation.value.username,
-                email : signupValidation.value.email ,
-                password : bcrypt.hashSync(signupValidation.value.password, salt)
-            })
-            console.log(result)
-            res.status(200).json([{message:"data created successfully"}])
+        User.findAll({
+            where: {
+                username : signupValidation.value.username
+            }
+        }).then(rs => {
+            if(rs.length >= 1){
+                res.status(200).json({message: "Username taken"})
+            } else {
+                User.create({
+                    fullnames : signupValidation.value.fullnames,
+                    username : signupValidation.value.username,
+                    email : signupValidation.value.email ,
+                    password : bcrypt.hashSync(signupValidation.value.password, salt)
+                })
+                // console.log(rs)
+                res.status(200).json([{message:"data created successfully"}])
+            }
         }).catch(err => {
             console.log(err)
         })
