@@ -1,5 +1,6 @@
 const express = require('express')
-const {signup, login} = require('../controllers/userCredentials.js')
+const {signup, login, dashboard} = require('../controllers/userCredentials.js')
+const verifiedAuth = require('../middleware/authentication.js')
 const router = express.Router()
 
 // router.get('/',testing)
@@ -7,5 +8,6 @@ const router = express.Router()
 // ****NOTE...CHANGE THE METHOD TO POST
 router.post('/signup',signup)
 router.post('/login',login)
+router.post('/dashboard', verifiedAuth, dashboard)
 
 module.exports = {router}

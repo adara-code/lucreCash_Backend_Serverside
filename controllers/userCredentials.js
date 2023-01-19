@@ -1,15 +1,20 @@
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
 const sequelize = require('../config/connection.js')
 const { signupSchema, loginSchema } = require('../validation/dataValidation.js')
 const User = require('../models/Users.js')
+
+// jwt key
+let secretKey;
 
 // gensalt creates 10 random characters and its encrypted
 const salt = bcrypt.genSaltSync(10)
 
 /* this function first validates data using joi function, then goes back
-to the database to check whether the username exists, if so, the new user is notified
-that the username is taken, if not, a new User object is inserted into the db
+to the database to check whether email and username exists, if so, the new user is notified
+that the email or username is taken, if not, a new User object is inserted into the db
 */
 const signup = async (req, res) => {
     const signupValidation = await signupSchema.validate(req.body)
@@ -25,7 +30,7 @@ const signup = async (req, res) => {
             }
         }).then(rs => {
             if (rs.length >= 1) {
-                res.status(400).json([{ message: "Email already exists" }])
+                res.status(200).json([{ message: "Email already exists" }])
             } else {
                 User.findAll({
                     where: {
@@ -75,9 +80,10 @@ const login = async (req, res) => {
             } else {
                 const passwordCheck = bcrypt.compareSync(loginValidation.value.password, rs.dataValues.password)
                 if (!passwordCheck) {
-                    res.status(200).json([{ message: "Wrong Password" }])
+                    res.status(200).json([{ message: "Invalid Password" }])
                 } else {
-                    res.status(200).json([{ message: "Login Successfull" }])
+                    const validity = jwt.sign(rs.dataValues,jwtKey)
+                    res.status(200).json([{ message: validity }])
                 }
                 console.log(passwordCheck)
             }
@@ -90,9 +96,11 @@ const login = async (req, res) => {
     }
 }
 
-// const validity = bcrypt.compareSync(password, rs.dataValues.password)
+const dashboard = (req,res) => {
+    res.status(200).json([{message:"touchdown with token"}])
+}
 
-module.exports = { signup, login }
+module.exports = { signup, login, dashboard }
 
 
 
