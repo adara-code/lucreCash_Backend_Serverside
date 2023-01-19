@@ -21,28 +21,41 @@ const signup = async (req, res) => {
     } else {
         User.findAll({
             where: {
-                username: signupValidation.value.username
+                email: signupValidation.value.email
             }
         }).then(rs => {
             if (rs.length >= 1) {
-                res.status(200).json([{message: "Username taken"}])
+                res.status(400).json([{ message: "Email already exists" }])
             } else {
-                User.create({
-                    fullnames: signupValidation.value.fullnames,
-                    username: signupValidation.value.username,
-                    email: signupValidation.value.email,
-                    password: bcrypt.hashSync(signupValidation.value.password, salt)
+                User.findAll({
+                    where: {
+                        username: signupValidation.value.username
+                    }
                 }).then(rs => {
-                    console.log(rs)
-                    res.status(200).json([{ message: "Registration successfull" }])
+                    if (rs.length >= 1) {
+                        res.status(200).json([{ message: "Username taken" }])
+                    } else {
+                        User.create({
+                            fullnames: signupValidation.value.fullnames,
+                            username: signupValidation.value.username,
+                            email: signupValidation.value.email,
+                            password: bcrypt.hashSync(signupValidation.value.password, salt)
+                        }).then(rs => {
+                            console.log(rs)
+                            res.status(200).json([{ message: "Registration successfull" }])
+                        }).catch(err => {
+                            console.log(err)
+                            res.status(200).json([{ message: "Error: Registation Failed" }])
+                        })
+                    }
                 }).catch(err => {
                     console.log(err)
-                    res.status(200).json([{ message: "Error: Registation Failed" }])
                 })
             }
         }).catch(err => {
             console.log(err)
         })
+
     }
 }
 
@@ -53,18 +66,18 @@ const login = async (req, res) => {
     } else {
         User.findOne({
             where: {
-                username : loginValidation.value.username,
+                username: loginValidation.value.username,
             }
         }).then(rs => {
-            if(rs == null) {
+            if (rs == null) {
                 // console.log(rs)
-                res.status(200).json([{message: "Username doesn't exist"}])
+                res.status(200).json([{ message: "Username doesn't exist" }])
             } else {
                 const passwordCheck = bcrypt.compareSync(loginValidation.value.password, rs.dataValues.password)
-                if(passwordCheck) {
-                    res.status(200).json([{message: "Login successfull"}])
+                if (!passwordCheck) {
+                    res.status(200).json([{ message: "Wrong Password" }])
                 } else {
-                    res.status(200).json([{message: "Wrong password"}])
+                    res.status(200).json([{ message: "Login Successfull" }])
                 }
                 console.log(passwordCheck)
             }
