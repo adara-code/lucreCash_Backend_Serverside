@@ -6,8 +6,11 @@ const sequelize = require('../config/connection.js')
 const { signupSchema, loginSchema } = require('../validation/dataValidation.js')
 const User = require('../models/Users.js')
 
+// dotenv configuration
+dotenv.config({path:'../.env'})
+
 // jwt key
-let secretKey;
+let secretKey = process.env.JWT_KEY;
 
 // gensalt creates 10 random characters and its encrypted
 const salt = bcrypt.genSaltSync(10)
