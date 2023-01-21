@@ -7,7 +7,7 @@ const { signupSchema, loginSchema } = require('../validation/dataValidation.js')
 const User = require('../models/Users.js')
 
 // dotenv configuration
-dotenv.config({path:'../.env'})
+dotenv.config()
 
 // jwt key
 let secretKey = process.env.JWT_KEY;
@@ -79,14 +79,14 @@ const login = async (req, res) => {
         }).then(rs => {
             if (rs == null) {
                 // console.log(rs)
-                res.status(200).json([{ message: "Username doesn't exist" }])
+                res.status(200).json([{ message: "Username or Password is invalid" }])
             } else {
                 const passwordCheck = bcrypt.compareSync(loginValidation.value.password, rs.dataValues.password)
                 if (!passwordCheck) {
-                    res.status(200).json([{ message: "Invalid Password" }])
+                    res.status(200).json([{ message: "Username or Password is invalid" }])
                 } else {
-                    const validity = jwt.sign(rs.dataValues,jwtKey)
-                    res.status(200).json([{ message: validity }])
+                    const tokenGenerator = jwt.sign(rs.dataValues,secretKey)
+                    res.status(200).json([{ message: tokenGenerator }])
                 }
                 console.log(passwordCheck)
             }
@@ -100,7 +100,7 @@ const login = async (req, res) => {
 }
 
 const dashboard = (req,res) => {
-    res.status(200).json([{message:"touchdown with token"}])
+    res.status(200).json([{message:req.decoded}])
 }
 
 module.exports = { signup, login, dashboard }
