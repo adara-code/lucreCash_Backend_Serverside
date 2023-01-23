@@ -85,7 +85,7 @@ const login = async (req, res) => {
                 if (!passwordCheck) {
                     res.status(200).json([{ message: "Username or Password is invalid" }])
                 } else {
-                    const tokenGenerator = jwt.sign(rs.dataValues,secretKey)
+                    const tokenGenerator = jwt.sign(rs.dataValues,process.env.JWT_KEY)
                     res.status(200).json([{ message: tokenGenerator }])
                 }
                 console.log(passwordCheck)

@@ -12,8 +12,8 @@ const verifiedAuth = (req, res, next) => {
             const headerToken = bearHeader.split(' ')
             const neededToken = headerToken[1]
             req.token = neededToken
-            req.decoded = jwt.verify(req.token, process.env.JWT_KEY)
-            console.log(req.token)
+            req.decoded = jwt.verify(neededToken,process.env.JWT_KEY)
+            // console.log(req.token)
             next()
 
         } catch (error) {
