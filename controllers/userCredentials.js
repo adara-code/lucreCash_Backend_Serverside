@@ -99,11 +99,7 @@ const login = async (req, res) => {
     }
 }
 
-const dashboard = (req,res) => {
-    res.status(200).json([{message:req.decoded}])
-}
-
-module.exports = { signup, login, dashboard }
+module.exports = { signup, login }
 
 
 

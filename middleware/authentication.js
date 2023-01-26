@@ -6,7 +6,7 @@ dotenv.config()
 const verifiedAuth = (req, res, next) => {
     const bearHeader = req.headers["authorization"]
     if (typeof bearHeader == "undefined") {
-        res.status(200).json([{ message: 'Access Denied' }])
+        res.status(200).json([{ message: 'Access Denied. Token needed' }])
     } else {
         try {
             const headerToken = bearHeader.split(' ')

@@ -15,6 +15,12 @@ const loginSchema = Joi.object({
     password: Joi.string().min(5).max(20).required()
 })
 
+const accountSchema = Joi.object({
+    income: Joi.number().integer().positive().min(100).required(),
+    expenses: Joi.number().integer().positive().required(),
+    debt: Joi.number().integer().required()
+})
 
-module.exports = {signupSchema, loginSchema}
+
+module.exports = {signupSchema, loginSchema, accountSchema}
 
