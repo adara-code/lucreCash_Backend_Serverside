@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
-const sequelize = require('../config/connection.js')
+const sequelize = require('../config/connection.js');
+const { AccountStatement } = require('./Account.js');
 
 const User = sequelize.define("user", {
     userid:{
@@ -29,5 +30,27 @@ const User = sequelize.define("user", {
         allowNull: true
     }
 })
+
+User.hasOne(AccountStatement, {
+    foreignKey : {
+        type: Sequelize.UUID,
+        allowNull: false
+    }
+});
+AccountStatement.belongsTo(User)
+
+
+// User.hasOne(AccountStatement, {
+//     foreignKey: 'myAccountId',
+//     type: Sequelize.UUID,
+//     allowNull: false,
+// });
+// AccountStatement.belongsTo(User);
+
+
+// references: {
+//     model: 'Users',
+//     key: 'idUsers'
+//   }
 
 module.exports = User;

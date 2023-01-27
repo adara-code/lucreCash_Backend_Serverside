@@ -15,10 +15,11 @@ const loginSchema = Joi.object({
     password: Joi.string().min(5).max(20).required()
 })
 
+// data validation - account schema
 const accountSchema = Joi.object({
-    income: Joi.number().integer().positive().min(100).required(),
-    expenses: Joi.number().integer().positive().required(),
-    debt: Joi.number().integer().required()
+    Income: Joi.number().integer().positive().min(100).required(),
+    Expenses: Joi.number().integer().positive().required(),
+    Debt: Joi.number().integer().required()
 })
 
 

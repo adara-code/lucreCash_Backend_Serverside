@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const sequelizeConnector = require('../config/connection.js')
+const User = require('./Users.js')
 
 const AccountStatement = sequelizeConnector.define("account", {
     accountId : {
@@ -19,11 +20,8 @@ const AccountStatement = sequelizeConnector.define("account", {
     debt : {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false
-    },
-    userid:{
-        type:Sequelize.UUID,
-        defaultValue:Sequelize.UUIDV4,
     }
 })
+// AccountStatement.belongsTo(User)
 
 module.exports = {AccountStatement}
