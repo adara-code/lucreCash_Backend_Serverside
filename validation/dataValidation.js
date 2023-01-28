@@ -15,13 +15,19 @@ const loginSchema = Joi.object({
     password: Joi.string().min(5).max(20).required()
 })
 
-// data validation - account schema
+// data validation - add finance details schema
 const accountSchema = Joi.object({
     Income: Joi.number().integer().positive().min(100).required(),
     Expenses: Joi.number().integer().positive().required(),
     Debt: Joi.number().integer().required()
 })
 
+// data validation - edit finance details schema
+const editSchema = Joi.object({
+    editIncome: Joi.number().integer().positive().min(100),
+    editExpense: Joi.number().integer().positive(),
+    editDebt: Joi.number().integer()
+})
 
-module.exports = {signupSchema, loginSchema, accountSchema}
+module.exports = {signupSchema, loginSchema, accountSchema, editSchema}
 

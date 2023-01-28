@@ -3,9 +3,9 @@ const sequelize = require('../config/connection.js')
 const Joi = require('joi')
 const User = require("../models/Users.js");
 const { AccountStatement } = require('../models/Account.js');
-const { accountSchema } = require('../validation/dataValidation.js');
+const { accountSchema, editSchema } = require('../validation/dataValidation.js');
 const jwt = require('jsonwebtoken');
-const { where } = require('sequelize');
+
 
 const addFinanceDetails = async (req, res) => {
     const validateInput = await accountSchema.validate(req.body)
@@ -33,30 +33,36 @@ const addFinanceDetails = async (req, res) => {
 
 
 const editFinanceDetails = async (req, res) => {
-    const editedIncome = req.body.editIncome;
-    const editedExpense = req.body.editExpense;
-    const editedDebt = req.body.editDebt;
+    const validateEdittedInput = await editSchema.validate(req.body)
 
-    await AccountStatement.update({
-        netIncome: editedIncome,
-        expenses: editedExpense,
-        debt: editedDebt
-    }, {
-        where: {
-            userUserid: req.decoded.userid
-        }
-    })
+    if (validateEdittedInput.error) {
+        res.status(200).json([{ message: validateEdittedInput.error.details[0].message }])
+    } else {
 
-    AccountStatement.findAll({
-        where: {
-            userUserid: req.decoded.userid
-        }
-    }).then(rs => {
-        res.status(200).json([{ message: rs }])
-    }).catch(err => {
-        console.log(err)
-    })
+        const editedIncome = req.body.editIncome;
+        const editedExpense = req.body.editExpense;
+        const editedDebt = req.body.editDebt;
 
+        await AccountStatement.update({
+            netIncome: editedIncome,
+            expenses: editedExpense,
+            debt: editedDebt
+        }, {
+            where: {
+                userUserid: req.decoded.userid
+            }
+        })
+
+        AccountStatement.findAll({
+            where: {
+                userUserid: req.decoded.userid
+            }
+        }).then(rs => {
+            res.status(200).json([{ message: rs }])
+        }).catch(err => {
+            console.log(err)
+        })
+    }
 
 }
 
