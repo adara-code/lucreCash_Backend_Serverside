@@ -53,23 +53,44 @@ const editFinanceDetails = async (req, res) => {
             }
         })
 
-        AccountStatement.findAll({
-            where: {
-                userUserid: req.decoded.userid
-            }
-        }).then(rs => {
-            res.status(200).json([{ message: rs }])
-        }).catch(err => {
-            console.log(err)
-        })
+        res.status(200).json([{message: "Edit successful"}])
+
+        // AccountStatement.findAll({
+        //     where: {
+        //         userUserid: req.decoded.userid
+        //     }
+        // }).then(rs => {
+        //     res.status(200).json([{ message: rs }])
+        // }).catch(err => {
+        //     console.log(err)
+        // })
     }
 
 }
 
 const dashboard = async (req, res) => {
-    res.status(200).json([{ message: req.decoded }])
-    console.log(req.decoded.userid)
-    // res.status(200).json([{message: "Touchdown"}])
+    await AccountStatement.findAll({
+        where : {
+            userUserid : req.decoded.userid
+        }
+    }).then(rs => {
+        // console.log(rs[0].dataValues.netIncome)
+        const totalIncome = rs[0].dataValues.netIncome
+        const totalExpenses = rs[0].dataValues.expenses
+        const totalDebt = rs[0].dataValues.debt
+        const disposableIncome = totalIncome - totalExpenses - totalDebt
+
+        if(disposableIncome > 0) {
+            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome}])
+        } else if(disposableIncome == 0) {
+            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome: "Your income and expenses are equal"}])
+        } else {
+            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome: "No disposable income"}])
+        }
+    }).catch(err => {
+        console.log(err)
+    })
+    
 }
 
 module.exports = { dashboard, addFinanceDetails, editFinanceDetails }
