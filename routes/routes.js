@@ -10,8 +10,8 @@ const router = express.Router()
 // ****NOTE...CHANGE THE METHOD TO POST
 router.post('/signup',signup)
 router.post('/login',login)
-router.post('/dashboard', verifiedAuth, dashboard)
 router.post('/add', verifiedAuth, addFinanceDetails)
 router.put('/edit', verifiedAuth, editFinanceDetails)
+router.post('/dashboard', verifiedAuth, dashboard)
 
 module.exports = {router}

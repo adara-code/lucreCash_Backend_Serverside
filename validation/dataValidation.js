@@ -24,9 +24,9 @@ const accountSchema = Joi.object({
 
 // data validation - edit finance details schema
 const editSchema = Joi.object({
-    editIncome: Joi.number().integer().positive().min(100),
-    editExpense: Joi.number().integer().positive(),
-    editDebt: Joi.number().integer()
+    Income: Joi.number().integer().positive().min(100),
+    Expenses: Joi.number().integer().positive(),
+    Debt: Joi.number().integer().positive()
 })
 
 module.exports = {signupSchema, loginSchema, accountSchema, editSchema}

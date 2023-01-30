@@ -5,6 +5,7 @@ const User = require("../models/Users.js");
 const { AccountStatement } = require('../models/Account.js');
 const { accountSchema, editSchema } = require('../validation/dataValidation.js');
 const jwt = require('jsonwebtoken');
+const { isError } = require('joi');
 
 
 const addFinanceDetails = async (req, res) => {
@@ -39,9 +40,9 @@ const editFinanceDetails = async (req, res) => {
         res.status(200).json([{ message: validateEdittedInput.error.details[0].message }])
     } else {
 
-        const editedIncome = req.body.editIncome;
-        const editedExpense = req.body.editExpense;
-        const editedDebt = req.body.editDebt;
+        const editedIncome = req.body.Income;
+        const editedExpense = req.body.Expenses;
+        const editedDebt = req.body.Debt;
 
         await AccountStatement.update({
             netIncome: editedIncome,
@@ -53,9 +54,9 @@ const editFinanceDetails = async (req, res) => {
             }
         })
 
-        res.status(200).json([{message: "Edit successful"}])
+        res.status(200).json([{message:"success"}])
 
-        // AccountStatement.findAll({
+        // await AccountStatement.findOne({
         //     where: {
         //         userUserid: req.decoded.userid
         //     }
@@ -69,6 +70,7 @@ const editFinanceDetails = async (req, res) => {
 }
 
 const dashboard = async (req, res) => {
+    const username = req.decoded.username
     await AccountStatement.findAll({
         where : {
             userUserid : req.decoded.userid
@@ -81,11 +83,11 @@ const dashboard = async (req, res) => {
         const disposableIncome = totalIncome - totalExpenses - totalDebt
 
         if(disposableIncome > 0) {
-            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome}])
+            res.status(200).json([{username, totalIncome, totalExpenses, totalDebt,disposableIncome}])
         } else if(disposableIncome == 0) {
-            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome: "Your income and expenses are equal"}])
+            res.status(200).json([{totalIncome, totalExpenses, totalDebt, disposableIncome}])
         } else {
-            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome: "No disposable income"}])
+            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome}])
         }
     }).catch(err => {
         console.log(err)
