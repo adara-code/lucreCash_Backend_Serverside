@@ -85,9 +85,9 @@ const dashboard = async (req, res) => {
         if(disposableIncome > 0) {
             res.status(200).json([{username, totalIncome, totalExpenses, totalDebt,disposableIncome}])
         } else if(disposableIncome == 0) {
-            res.status(200).json([{totalIncome, totalExpenses, totalDebt, disposableIncome}])
+            res.status(200).json([{username, totalIncome, totalExpenses, totalDebt, disposableIncome}])
         } else {
-            res.status(200).json([{totalIncome, totalExpenses, totalDebt,disposableIncome}])
+            res.status(200).json([{username, totalIncome, totalExpenses, totalDebt,disposableIncome}])
         }
     }).catch(err => {
         console.log(err)
