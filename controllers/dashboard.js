@@ -95,7 +95,28 @@ const dashboard = async (req, res) => {
     
 }
 
-module.exports = { dashboard, addFinanceDetails, editFinanceDetails }
+const currentPosition = async(req,res) => {
+    const username = req.decoded.username
+    await AccountStatement.findAll({
+        where : {
+            userUserid : req.decoded.userid
+        }
+    }).then(rs => {
+        console.log(rs[0].dataValues.netIncome)
+
+        const totalIncome = rs[0].dataValues.netIncome
+        const totalExpenses = rs[0].dataValues.expenses
+        const totalDebt = rs[0].dataValues.debt
+        const disposableIncome = totalIncome - totalExpenses - totalDebt
+        
+        res.status(200).json([{currentExpenses:totalExpenses, currentDebt: totalDebt, currentSavings:disposableIncome}])
+    }).catch(err => {
+        res.status(200).json([{message: "Token Needed"}])
+        console.log(err)
+    })
+}
+
+module.exports = { dashboard, addFinanceDetails, editFinanceDetails, currentPosition }
 
 // sequelize.sync({force: true}).then(rs => {
 //     console.log(rs)
