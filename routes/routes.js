@@ -1,5 +1,5 @@
 const express = require('express')
-const { dashboard, addFinanceDetails, editFinanceDetails, currentPosition } = require('../controllers/dashboard.js')
+const { dashboard, addFinanceDetails, editFinanceDetails, currentPosition, idealPosition } = require('../controllers/dashboard.js')
 const {signup, login} = require('../controllers/userCredentials.js')
 const verifiedAuth = require('../middleware/authentication.js')
 const router = express.Router()
@@ -15,5 +15,6 @@ router.post('/add', verifiedAuth, addFinanceDetails)
 router.put('/edit', verifiedAuth, editFinanceDetails)
 router.post('/dashboard', verifiedAuth, dashboard)
 router.get('/graphics', verifiedAuth, currentPosition)
+router.get('/ideal', verifiedAuth,idealPosition)
 
 module.exports = {router}
