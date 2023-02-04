@@ -136,13 +136,13 @@ const idealPosition = async (req, res) => {
         // console.log(rs[0].dataValues.netIncome)
 
         const totalIncome = rs[0].dataValues.netIncome
-        const totalExpenses = totalIncome / expenses
-        const totalSavings = totalIncome / savings
-        const totalInvestments = totalIncome / investments
-        const totalDebt = totalIncome /debtRepayment
-        const totalWants = totalIncome / entertainment
+        const totalExpenses = totalIncome * expenses
+        const totalSavings = totalIncome * savings
+        const totalInvestments = totalIncome * investments
+        const totalDebt = totalIncome * debtRepayment
+        const totalWants = totalIncome * entertainment
 
-        res.status(200).json([{ idealExpenses: totalExpenses, idealSavings: totalSavings, idealInvestments : totalInvestments, idealDebt: totalDebt, idealWants: totalWants }])
+        res.status(200).json([{idealExpenses: totalExpenses, idealSavings: totalSavings, idealInvestments : totalInvestments, idealDebt: totalDebt, idealWants: totalWants }])
     }).catch(err => {
         res.status(200).json([{ message: "Token Needed" }])
         console.log(err)

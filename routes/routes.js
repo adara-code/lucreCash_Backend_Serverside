@@ -14,7 +14,7 @@ router.post('/login',login)
 router.post('/add', verifiedAuth, addFinanceDetails)
 router.put('/edit', verifiedAuth, editFinanceDetails)
 router.post('/dashboard', verifiedAuth, dashboard)
-router.get('/graphics', verifiedAuth, currentPosition)
+router.get('/current', verifiedAuth, currentPosition)
 router.get('/ideal', verifiedAuth,idealPosition)
 
 module.exports = {router}
