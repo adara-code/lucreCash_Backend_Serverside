@@ -54,7 +54,7 @@ const editFinanceDetails = async (req, res) => {
             }
         })
 
-        res.status(200).json([{message:"success"}])
+        res.status(200).json([{ message: "success" }])
 
         // await AccountStatement.findOne({
         //     where: {
@@ -72,8 +72,8 @@ const editFinanceDetails = async (req, res) => {
 const dashboard = async (req, res) => {
     const username = req.decoded.username
     await AccountStatement.findAll({
-        where : {
-            userUserid : req.decoded.userid
+        where: {
+            userUserid: req.decoded.userid
         }
     }).then(rs => {
         // console.log(rs[0].dataValues.netIncome)
@@ -82,20 +82,74 @@ const dashboard = async (req, res) => {
         const totalDebt = rs[0].dataValues.debt
         const disposableIncome = totalIncome - totalExpenses - totalDebt
 
-        if(disposableIncome > 0) {
-            res.status(200).json([{username, totalIncome, totalExpenses, totalDebt,disposableIncome}])
-        } else if(disposableIncome == 0) {
-            res.status(200).json([{username, totalIncome, totalExpenses, totalDebt, disposableIncome}])
+        if (disposableIncome > 0) {
+            res.status(200).json([{ username, totalIncome, totalExpenses, totalDebt, disposableIncome }])
+        } else if (disposableIncome == 0) {
+            res.status(200).json([{ username, totalIncome, totalExpenses, totalDebt, disposableIncome }])
         } else {
-            res.status(200).json([{username, totalIncome, totalExpenses, totalDebt,disposableIncome}])
+            res.status(200).json([{ username, totalIncome, totalExpenses, totalDebt, disposableIncome }])
         }
     }).catch(err => {
         console.log(err)
     })
-    
+
 }
 
-module.exports = { dashboard, addFinanceDetails, editFinanceDetails }
+const currentPosition = async (req, res) => {
+    await AccountStatement.findAll({
+        where: {
+            userUserid: req.decoded.userid
+        }
+    }).then(rs => {
+        console.log(rs[0].dataValues.netIncome)
+
+        const totalIncome = rs[0].dataValues.netIncome
+        const totalExpenses = rs[0].dataValues.expenses
+        const totalDebt = rs[0].dataValues.debt
+        const disposableIncome = totalIncome - totalExpenses - totalDebt
+
+        if(disposableIncome < 0) {
+            res.status(200).json([{ currentExpenses: totalExpenses, currentDebt: totalDebt, currentSavings: 0 }])
+        }else {
+            res.status(200).json([{ currentExpenses: totalExpenses, currentDebt: totalDebt, currentSavings: disposableIncome }])
+        }
+
+        
+    }).catch(err => {
+        res.status(200).json([{ message: "Token Needed" }])
+        console.log(err)
+    })
+}
+
+const idealPosition = async (req, res) => {
+    const expenses = 0.5
+    const savings = 0.1
+    const investments = 0.1
+    const debtRepayment = 0.1
+    const entertainment = 0.2
+
+    await AccountStatement.findAll({
+        where: {
+            userUserid: req.decoded.userid
+        }
+    }).then(rs => {
+        // console.log(rs[0].dataValues.netIncome)
+
+        const totalIncome = rs[0].dataValues.netIncome
+        const totalExpenses = totalIncome * expenses
+        const totalSavings = totalIncome * savings
+        const totalInvestments = totalIncome * investments
+        const totalDebt = totalIncome * debtRepayment
+        const totalWants = totalIncome * entertainment
+
+        res.status(200).json([{idealExpenses: totalExpenses, idealSavings: totalSavings, idealInvestments : totalInvestments, idealDebt: totalDebt, idealWants: totalWants }])
+    }).catch(err => {
+        res.status(200).json([{ message: "Token Needed" }])
+        console.log(err)
+    })
+}
+
+module.exports = { dashboard, addFinanceDetails, editFinanceDetails, currentPosition, idealPosition }
 
 // sequelize.sync({force: true}).then(rs => {
 //     console.log(rs)
