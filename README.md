@@ -38,3 +38,5 @@ An app for tracking finances that uses REST API to tell users of their present f
 
 ## Snapshots of the backend code
 ![alt text](https://github.com/adara-code/lucreCash_Backend_Serverside/blob/main/screenshots/screenshot1.png)
+![alt text](https://github.com/adara-code/lucreCash_Backend_Serverside/blob/main/screenshots/screenshot2.png)
+![alt text](https://github.com/adara-code/lucreCash_Backend_Serverside/blob/main/screenshots/screenshot3.png)
