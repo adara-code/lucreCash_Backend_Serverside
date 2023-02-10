@@ -37,3 +37,4 @@ An app for tracking finances that uses REST API to tell users of their present f
 - sequelize
 
 ## Snapshots of the backend code
+![alt text](https://github.com/adara-code/lucreCash_Backend_Serverside/blob/main/screenshots/screenshot1.png)
