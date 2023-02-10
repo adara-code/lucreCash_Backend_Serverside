@@ -5,7 +5,6 @@ const User = require("../models/Users.js");
 const { AccountStatement } = require('../models/Account.js');
 const { accountSchema, editSchema } = require('../validation/dataValidation.js');
 const jwt = require('jsonwebtoken');
-const { isError } = require('joi');
 
 
 const addFinanceDetails = async (req, res) => {
