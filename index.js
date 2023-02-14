@@ -6,7 +6,7 @@ const { router } = require('./routes/routes.js')
 
 dotenv.config()
 const app = express()
-const port = 3000
+const PORT = process.env.PORT || 3000
 
 // cors setup; enables api to be accessible cross-origin
 app.use(cors())
@@ -19,8 +19,8 @@ app.use(express.urlencoded({extended: true}))
 app.use('/', router)
 app.use('/signup', router)
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`backend active on port`)
+app.listen(PORT, () => {
+    console.log(`backend active on port ${PORT}`)
 })
 
 // console.log(__dirname,"backend")
