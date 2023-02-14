@@ -1,7 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const dotenv = require('dotenv')
 const cors = require('cors')
 const { router } = require('./routes/routes.js')
+
+dotenv.config()
 const app = express()
 const port = 3000
 
@@ -16,8 +19,8 @@ app.use(express.urlencoded({extended: true}))
 app.use('/', router)
 app.use('/signup', router)
 
-app.listen(port, () => {
-    console.log(`backend active on port ${port}`)
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`backend active on port`)
 })
 
 // console.log(__dirname,"backend")
