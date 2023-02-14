@@ -19,10 +19,10 @@ const salt = bcrypt.genSaltSync(10)
 to the database to check whether email and username exists, if so, the new user is notified
 that the email or username is taken, if not, a new User object is inserted into the db
 */
-const home = async(req,res) => {
-    res.write("Testing the home page on deployment")
-    res.end()
-}
+// const home = async(req,res) => {
+//     res.write("Testing the home page on deployment")
+//     res.end()
+// }
 
 const signup = async (req, res) => {
     const signupValidation = await signupSchema.validate(req.body)
@@ -104,7 +104,7 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = { signup, login, home }
+module.exports = { signup, login }
 
 
 
