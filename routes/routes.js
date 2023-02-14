@@ -1,6 +1,6 @@
 const express = require('express')
 const { dashboard, addFinanceDetails, editFinanceDetails, currentPosition, idealPosition } = require('../controllers/dashboard.js')
-const {signup, login} = require('../controllers/userCredentials.js')
+const {signup, login, home} = require('../controllers/userCredentials.js')
 const verifiedAuth = require('../middleware/authentication.js')
 const router = express.Router()
 
@@ -9,7 +9,7 @@ const router = express.Router()
 // router.get('/',testing)
 
 // ****NOTE...CHANGE THE METHOD TO POST
-// router.get('/', home)
+router.get('/', home)
 router.post('/signup',signup)
 router.post('/login',login)
 router.post('/add', verifiedAuth, addFinanceDetails)
