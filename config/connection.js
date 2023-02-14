@@ -9,6 +9,7 @@ const sequelize = new Sequelize(process.env.DATABASE,process.env.DATABASE_USER,p
 })
 
 
+
 // console.log(process.env.DATABASE)
 
 module.exports = sequelize;
