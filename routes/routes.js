@@ -1,6 +1,6 @@
 const express = require('express')
 const { dashboard, addFinanceDetails, editFinanceDetails, currentPosition, idealPosition } = require('../controllers/dashboard.js')
-const {signup, loginme} = require('../controllers/userCredentials.js')
+const {signup, login} = require('../controllers/userCredentials.js')
 const verifiedAuth = require('../middleware/authentication.js')
 const router = express.Router()
 
