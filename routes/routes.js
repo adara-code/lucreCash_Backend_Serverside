@@ -9,7 +9,7 @@ const router = express.Router()
 // router.get('/',testing)
 
 // ****NOTE...CHANGE THE METHOD TO POST
-router.post('/', home)
+router.get('/', home)
 router.post('/signup',signup)
 router.post('/login',login)
 router.post('/add', verifiedAuth, addFinanceDetails)

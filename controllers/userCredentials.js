@@ -21,6 +21,7 @@ that the email or username is taken, if not, a new User object is inserted into 
 */
 const home = async(req,res) => {
     res.write("Testing the home page on deployment")
+    res.end()
 }
 
 const signup = async (req, res) => {
