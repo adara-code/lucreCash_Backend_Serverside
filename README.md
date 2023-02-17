@@ -1,6 +1,7 @@
 # Lucre Cash App 
 An app for tracking finances that uses REST API to tell users of their present financial situation and ideal financial situation given their current income.
 
+
 ## Click the links below to test the deployed versions
 Test the backend api using Postman https://lucrecash-api.up.railway.app/ 
 - Routes (/signup, /login, /dashboard)
@@ -11,7 +12,8 @@ Test the backend api using Postman https://lucrecash-api.up.railway.app/
     
 Test both the frontend and backend apps integrated together https://lucrecash.up.railway.app/
 
-## How to run the app
+
+## How to run the app on your local machine
 1. Fork or download the app 
 2. Navigate to the backend folder
 3. Install all the dependencies using "npm i" command (see below for a list of the dependencies)
