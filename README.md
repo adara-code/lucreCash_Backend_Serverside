@@ -4,11 +4,6 @@ An app for tracking finances that uses REST API to tell users of their present f
 
 ## Click the links below to test the deployed versions
 Test the backend api using Postman https://lucrecash-api.up.railway.app/ 
-- Routes (/signup, /login, /dashboard)
-    -/signup
-    On Postman, click on body > select raw > select JSON
-    Create an object using the keys: "fullnames, username, email, password" and add matching values.
-    Click send
     
 Test both the frontend and backend apps integrated together https://lucrecash.up.railway.app/
 
