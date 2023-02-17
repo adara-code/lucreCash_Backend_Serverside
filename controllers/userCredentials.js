@@ -6,6 +6,7 @@ const sequelize = require('../config/connection.js')
 const { signupSchema, loginSchema } = require('../validation/dataValidation.js')
 const User = require('../models/Users.js')
 const { AccountStatement } = require('../models/Account.js')
+// AccountStatement
 
 // dotenv configuration
 dotenv.config()
