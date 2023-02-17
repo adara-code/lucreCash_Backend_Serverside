@@ -6,6 +6,7 @@ dotenv.config()
 
 const sequelize = new Sequelize(process.env.DATABASE,process.env.DATABASE_USER,process.env.PASSWORD, {
     dialect: "mysql",
+    port: process.env.DATABASE_PORT,
     host: process.env.HOST
 })
 
