@@ -27,57 +27,52 @@ that the email or username is taken, if not, a new User object is inserted into 
 // }
 
 const signup = async (req, res) => {
-    sequelize.sync({force: true}).then(rs => {
-        console.log(rs)
-    }).catch(err => {
-        console.log(err)
-    })
+    
+    const signupValidation = await signupSchema.validate(req.body)
 
-    // const signupValidation = await signupSchema.validate(req.body)
+    if (signupValidation.error) {
+        console.log(signupValidation.error.details[0].message)
+        res.status(200).json([{ message: signupValidation.error.details[0].message }])
 
-    // if (signupValidation.error) {
-    //     console.log(signupValidation.error.details[0].message)
-    //     res.status(200).json([{ message: signupValidation.error.details[0].message }])
+    } else {
+        User.findAll({
+            where: {
+                email: signupValidation.value.email
+            }
+        }).then(rs => {
+            if (rs.length >= 1) {
+                res.status(200).json([{ message: "Email already exists" }])
+            } else {
+                User.findAll({
+                    where: {
+                        username: signupValidation.value.username
+                    }
+                }).then(rs => {
+                    if (rs.length >= 1) {
+                        res.status(200).json([{ message: "Username taken" }])
+                    } else {
+                        User.create({
+                            fullnames: signupValidation.value.fullnames,
+                            username: signupValidation.value.username,
+                            email: signupValidation.value.email,
+                            password: bcrypt.hashSync(signupValidation.value.password, salt)
+                        }).then(rs => {
+                            console.log(rs)
+                            res.status(200).json([{ message: "Registration successfull" }])
+                        }).catch(err => {
+                            console.log(err)
+                            res.status(200).json([{ message: "Error: Registation Failed" }])
+                        })
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+        }).catch(err => {
+            console.log(err)
+        })
 
-    // } else {
-    //     User.findAll({
-    //         where: {
-    //             email: signupValidation.value.email
-    //         }
-    //     }).then(rs => {
-    //         if (rs.length >= 1) {
-    //             res.status(200).json([{ message: "Email already exists" }])
-    //         } else {
-    //             User.findAll({
-    //                 where: {
-    //                     username: signupValidation.value.username
-    //                 }
-    //             }).then(rs => {
-    //                 if (rs.length >= 1) {
-    //                     res.status(200).json([{ message: "Username taken" }])
-    //                 } else {
-    //                     User.create({
-    //                         fullnames: signupValidation.value.fullnames,
-    //                         username: signupValidation.value.username,
-    //                         email: signupValidation.value.email,
-    //                         password: bcrypt.hashSync(signupValidation.value.password, salt)
-    //                     }).then(rs => {
-    //                         console.log(rs)
-    //                         res.status(200).json([{ message: "Registration successfull" }])
-    //                     }).catch(err => {
-    //                         console.log(err)
-    //                         res.status(200).json([{ message: "Error: Registation Failed" }])
-    //                     })
-    //                 }
-    //             }).catch(err => {
-    //                 console.log(err)
-    //             })
-    //         }
-    //     }).catch(err => {
-    //         console.log(err)
-    //     })
-
-    // }
+    }
 }
 
 const login = async (req, res) => {
@@ -118,3 +113,9 @@ module.exports = { signup, login }
 
 /*creates the user table in the database | Add it to the signup function
 sequelize.sync({ force: true }).then(result => {User.create(user object) console.log(result)}) */
+
+/*sequelize.sync({force: true}).then(rs => {
+    console.log(rs)
+}).catch(err => {
+    console.log(err)
+})*/
