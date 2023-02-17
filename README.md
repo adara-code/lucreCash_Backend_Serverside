@@ -1,6 +1,16 @@
 # Lucre Cash App 
 An app for tracking finances that uses REST API to tell users of their present financial situation and ideal financial situation given their current income.
 
+## Click the links below to test the deployed versions
+Test the backend api using Postman https://lucrecash-api.up.railway.app/ 
+- Routes (/signup, /login, /dashboard)
+    -/signup
+    On Postman, click on body > select raw > select JSON
+    Create an object using the keys: "fullnames, username, email, password" and add matching values.
+    Click send
+    
+Test both the frontend and backend apps integrated together https://lucrecash.up.railway.app/
+
 ## How to run the app
 1. Fork or download the app 
 2. Navigate to the backend folder
@@ -25,6 +35,7 @@ An app for tracking finances that uses REST API to tell users of their present f
 
 ## Future Features
 1. Gmail API to allow users to login using their gmail accounts
+2. Generating a JWT token on the registration page so that it takes the user directly to the dashboard
 
 ## Dependencies
 - body-parser
