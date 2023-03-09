@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/connection');
-const { ProfileSetup } = require('./ProfileSetup');
+// const { ProfileSetup } = require('./ProfileSetup');
 
 
 const UserSignUp = sequelize.define('signup', {
