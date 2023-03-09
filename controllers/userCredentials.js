@@ -136,6 +136,12 @@ const login = async (req, res) => {
     res.status(200).json([{message: "touchdown"}])
 }
 
+sequelize.sync({force: true}).then(rs => {
+    console.log(rs)
+}).catch(err => {
+    console.log(err)
+})
+
 module.exports = { signup, login }
 
 
@@ -143,8 +149,4 @@ module.exports = { signup, login }
 /*creates the user table in the database | Add it to the signup function
 sequelize.sync({ force: true }).then(result => {User.create(user object) console.log(result)}) */
 
-sequelize.sync({force: true}).then(rs => {
-    console.log(rs)
-}).catch(err => {
-    console.log(err)
-})
+
