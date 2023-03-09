@@ -21,12 +21,12 @@ const UserSignUp = sequelize.define('signup', {
     }
 })
 
-UserSignUp.hasOne(ProfileSetup, {
-    foreignKey : {
-        type: Sequelize.UUID,
-        allowNull: false
-    }
-});
-ProfileSetup.belongsTo(UserSignUp)
+// UserSignUp.hasOne(ProfileSetup, {
+//     foreignKey : {
+//         type: Sequelize.UUID,
+//         allowNull: false
+//     }
+// });
+// ProfileSetup.belongsTo(UserSignUp)
 
 module.exports = {UserSignUp}
