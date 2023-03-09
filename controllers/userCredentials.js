@@ -29,29 +29,29 @@ that the email or username is taken, if not, a new User object is inserted into 
 // }
 
 const signup = async (req, res) => {
-    // const userEmail = req.body.emailSignup
-    // const userPassword = bcrypt.hashSync(req.body.passwordSignup,salt)
+    const userEmail = req.body.emailSignup
+    const userPassword = bcrypt.hashSync(req.body.passwordSignup,salt)
 
-    // UserSignUp.findAll({
-    //     where: {
-    //         email : userEmail
-    //     }
-    // }).then(rs => {
-    //     if(rs.length >= 1) {
-    //         res.status(200).json([{message: "Email taken. Try again"}])
-    //     } else {
-    //         UserSignUp.create({
-    //             email : userEmail,
-    //             password: userPassword
-    //         }).then(rs => {
-    //             const userToken = jwt.sign(rs.dataValues,process.env.JWT_KEY)
-    //             res.status(200).json([{message: "Signup successful"}])
-    //             console.log(userToken)
-    //         })
-    //     }
-    // }).catch(err => {
-    //     console.log(err)
-    // })
+    UserSignUp.findAll({
+        where: {
+            email : userEmail
+        }
+    }).then(rs => {
+        if(rs.length >= 1) {
+            res.status(200).json([{message: "Email taken. Try again"}])
+        } else {
+            UserSignUp.create({
+                email : userEmail,
+                password: userPassword
+            }).then(rs => {
+                const userToken = jwt.sign(rs.dataValues,process.env.JWT_KEY)
+                res.status(200).json([{message: "Signup successful"}])
+                console.log(userToken)
+            })
+        }
+    }).catch(err => {
+        console.log(err)
+    })
     // res.status(200).json([{message: "Signup successful"}])
     // res.status(200).json([{message: "Touchdown"}])
 
@@ -133,7 +133,7 @@ const login = async (req, res) => {
     //     })
     //     // console.log("Login validation successful")
     // }
-    res.status(200).json([{message: "touchdown"}])
+    // res.status(200).json([{message: "touchdown"}])
 }
 
 sequelize.sync({force: true}).then(rs => {
